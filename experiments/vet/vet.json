@@ -1,0 +1,121 @@
+{
+  "records": [
+    {
+      "myc_file": "/tmp/myc-decompose/work/mycelium-codegen-myc/experiments/vet/balance.myc",
+      "source_file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "class": "CheckError",
+      "exit_code": 3,
+      "diagnostic": "check-error: check error in `check_owned`: unknown type `VarId`",
+      "non_test_items": 11,
+      "emitted_items": 4
+    },
+    {
+      "myc_file": "/tmp/myc-decompose/work/mycelium-codegen-myc/experiments/vet/corpus.myc",
+      "source_file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "class": "CheckError",
+      "exit_code": 3,
+      "diagnostic": "check-error: check error in `CorpusError`: unknown type `RcError`",
+      "non_test_items": 20,
+      "emitted_items": 8
+    },
+    {
+      "myc_file": "/tmp/myc-decompose/work/mycelium-codegen-myc/experiments/vet/emit.myc",
+      "source_file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/emit.rs",
+      "class": "CheckError",
+      "exit_code": 3,
+      "diagnostic": "check-error: check error in `emit_elided`: unknown type `Node`",
+      "non_test_items": 31,
+      "emitted_items": 7
+    },
+    {
+      "myc_file": "/tmp/myc-decompose/work/mycelium-codegen-myc/experiments/vet/eval.myc",
+      "source_file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "class": "Clean",
+      "exit_code": 0,
+      "diagnostic": "",
+      "non_test_items": 23,
+      "emitted_items": 2
+    },
+    {
+      "myc_file": "/tmp/myc-decompose/work/mycelium-codegen-myc/experiments/vet/lib.myc",
+      "source_file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/lib.rs",
+      "class": "Clean",
+      "exit_code": 0,
+      "diagnostic": "",
+      "non_test_items": 0,
+      "emitted_items": 0
+    },
+    {
+      "myc_file": "/tmp/myc-decompose/work/mycelium-codegen-myc/experiments/vet/rc_ir.myc",
+      "source_file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "class": "Clean",
+      "exit_code": 0,
+      "diagnostic": "",
+      "non_test_items": 5,
+      "emitted_items": 1
+    }
+  ],
+  "total_non_test_items": 90,
+  "total_emitted_items": 22,
+  "total_checked_clean_items": 3,
+  "class_counts": {
+    "CheckError": 3,
+    "Clean": 3
+  },
+  "phylum": {
+    "ran": true,
+    "ok": false,
+    "nodules": [
+      {
+        "nodule": "mir.passes.balance",
+        "file": "balance.myc",
+        "class": "CheckError",
+        "site": "check_owned",
+        "on": null,
+        "message": "unknown type `VarId`"
+      },
+      {
+        "nodule": "mir.passes.corpus",
+        "file": "corpus.myc",
+        "class": "CheckError",
+        "site": "CorpusError",
+        "on": null,
+        "message": "unknown type `RcError`"
+      },
+      {
+        "nodule": "mir.passes.emit",
+        "file": "emit.myc",
+        "class": "CheckError",
+        "site": "emit_elided",
+        "on": null,
+        "message": "unknown type `Node`"
+      },
+      {
+        "nodule": "mir.passes.eval",
+        "file": "eval.myc",
+        "class": "Clean",
+        "site": null,
+        "on": null,
+        "message": null
+      },
+      {
+        "nodule": "mir.passes",
+        "file": "lib.myc",
+        "class": "Clean",
+        "site": null,
+        "on": null,
+        "message": null
+      },
+      {
+        "nodule": "mir.passes.rc_ir",
+        "file": "rc_ir.myc",
+        "class": "Clean",
+        "site": null,
+        "on": null,
+        "message": null
+      }
+    ],
+    "diagnostic": "unknown type `RcError`"
+  },
+  "total_checked_clean_items_phylum": 3
+}

@@ -1,0 +1,89 @@
+{
+  "source": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+  "emitted_items": [
+    "Mode"
+  ],
+  "gaps": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "line": 30,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use mycelium_core :: { CtorRef , PolicyRef , Prim , Repr , Value , VarId } ;",
+      "reason": "`use mycelium_core::CtorRef` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::PolicyRef` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Prim` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Repr` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Value` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::VarId` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "line": 32,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The ownership mode of a binding (DN-33 §2 / §8.1 Q2).\"] # [doc = \"\"] # [doc = \" `Owned` is the naive default (MEM-4·B0): the binding holds a reference that must be `Dup`'d per\"] # [doc = \" extra use and `Drop`'d if unused. `Borrowed` is the output of MEM-4 Increment 1's non-escaping\"] # [doc = \" borrow elision — a borrowed binding is *read without consuming*, so it needs **no** `Dup`/`Drop`.\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — a two-state tag with no approximation.\"] # [derive (Debug , Clone , Copy , PartialEq , Eq , Hash)] pub enum Mode { # [doc = \" The binding owns a reference: extra uses `Dup`, an unused binding `Drop`s (naive default).\"] Owned , # [doc = \" The binding is borrowed (read-only, non-consuming): no `Dup`/`Drop` (Increment 1 output).\"] Borrowed , }",
+      "reason": "enum `Mode` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Mode"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "line": 32,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The ownership mode of a binding (DN-33 §2 / §8.1 Q2).\"] # [doc = \"\"] # [doc = \" `Owned` is the naive default (MEM-4·B0): the binding holds a reference that must be `Dup`'d per\"] # [doc = \" extra use and `Drop`'d if unused. `Borrowed` is the output of MEM-4 Increment 1's non-escaping\"] # [doc = \" borrow elision — a borrowed binding is *read without consuming*, so it needs **no** `Dup`/`Drop`.\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — a two-state tag with no approximation.\"] # [derive (Debug , Clone , Copy , PartialEq , Eq , Hash)] pub enum Mode { # [doc = \" The binding owns a reference: extra uses `Dup`, an unused binding `Drop`s (naive default).\"] Owned , # [doc = \" The binding is borrowed (read-only, non-consuming): no `Dup`/`Drop` (Increment 1 output).\"] Borrowed , }",
+      "reason": "enum `Mode` derive(Copy) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Mode"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "line": 32,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The ownership mode of a binding (DN-33 §2 / §8.1 Q2).\"] # [doc = \"\"] # [doc = \" `Owned` is the naive default (MEM-4·B0): the binding holds a reference that must be `Dup`'d per\"] # [doc = \" extra use and `Drop`'d if unused. `Borrowed` is the output of MEM-4 Increment 1's non-escaping\"] # [doc = \" borrow elision — a borrowed binding is *read without consuming*, so it needs **no** `Dup`/`Drop`.\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — a two-state tag with no approximation.\"] # [derive (Debug , Clone , Copy , PartialEq , Eq , Hash)] pub enum Mode { # [doc = \" The binding owns a reference: extra uses `Dup`, an unused binding `Drop`s (naive default).\"] Owned , # [doc = \" The binding is borrowed (read-only, non-consuming): no `Dup`/`Drop` (Increment 1 output).\"] Borrowed , }",
+      "reason": "enum `Mode` derive(Eq): covered by co-occurring PartialEq → `fn eq_Mode` (product-row collision policy; DN-128 / ONESHOT C2) — not a second emission",
+      "item_name": "Mode"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "line": 32,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The ownership mode of a binding (DN-33 §2 / §8.1 Q2).\"] # [doc = \"\"] # [doc = \" `Owned` is the naive default (MEM-4·B0): the binding holds a reference that must be `Dup`'d per\"] # [doc = \" extra use and `Drop`'d if unused. `Borrowed` is the output of MEM-4 Increment 1's non-escaping\"] # [doc = \" borrow elision — a borrowed binding is *read without consuming*, so it needs **no** `Dup`/`Drop`.\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — a two-state tag with no approximation.\"] # [derive (Debug , Clone , Copy , PartialEq , Eq , Hash)] pub enum Mode { # [doc = \" The binding owns a reference: extra uses `Dup`, an unused binding `Drop`s (naive default).\"] Owned , # [doc = \" The binding is borrowed (read-only, non-consuming): no `Dup`/`Drop` (Increment 1 output).\"] Borrowed , }",
+      "reason": "enum `Mode` derive(...) names Hash not in the DN-128 enum-derive set this leaf builds (Debug/PartialEq/Clone/Copy recognized; bare Eq is a satisfied co-occurrence note; Hash/PartialOrd/Ord/Default stay product-only for now) — dropped, no confirmed Mycelium surface",
+      "item_name": "Mode"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "line": 47,
+      "col": 1,
+      "category": "PayloadVariant",
+      "rust_construct": "PayloadVariant",
+      "snippet": "# [doc = \" One alternative of a flat [`RcNode::Match`] — mirrors `mycelium_core::Alt`.\"] # [derive (Debug , Clone , PartialEq)] pub enum RcAlt { # [doc = \" A constructor arm binding the constructor's fields to `binders` (in declaration order).\"] Ctor { # [doc = \" The constructor matched.\"] ctor : CtorRef , # [doc = \" The field binders, in declaration order.\"] binders : Vec < VarId > , # [doc = \" The arm body, in scope of `binders`.\"] body : RcNode , } , # [doc = \" A literal arm matching a representation value.\"] Lit { # [doc = \" The literal value to match.\"] value : Value , # [doc = \" The arm body.\"] body : RcNode , } , }",
+      "reason": "enum `RcAlt` has a named-field variant referencing a type not resolvable in-file — emitting it positionally would introduce an unresolved reference that poisons the file's `myc check`; left gapped under the M-1006 resolvability gate (VR-5/G2)",
+      "item_name": "RcAlt"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "line": 68,
+      "col": 1,
+      "category": "PayloadVariant",
+      "rust_construct": "PayloadVariant",
+      "snippet": "# [doc = \" An RC-annotated Core IR node (the first-order fragment + `Dup`/`Drop`).\"] # [doc = \"\"] # [doc = \" Mirrors `mycelium_core::Node` and adds the [`RcNode::Dup`]/[`RcNode::Drop`] reference-counting\"] # [doc = \" wrappers and the per-binding [`Mode`]. Produced by [`crate::emit`]; checked by\"] # [doc = \" [`crate::balance`].\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — a faithful structural mirror; the RC ops are inserted by the emission pass.\"] # [derive (Debug , Clone , PartialEq)] pub enum RcNode { # [doc = \" A constant value (allocates one reference when evaluated).\"] Const (Value) , # [doc = \" A variable reference — a **consuming use** (move) of one reference of the variable.\"] Var (VarId) , # [doc = \" A **borrowing read** of a variable — non-consuming (the reference count is unchanged; the\"] # [doc = \" value must be live). Produced by MEM-4 Increment 1 (borrow elision) for reads in\"] # [doc = \" reader-primitive positions (`Op`/`Swap` arguments) in the immutable value model, where a\"] # [doc = \" primitive reads its operands and produces a fresh result, retaining nothing.\"] Borrow (VarId) , # [doc = \" A **sole-owner consuming move** — semantically identical to [`RcNode::Var`] (it consumes one\"] # [doc = \" reference), but **statically proven** to be the unique owner at this point (reference count\"] # [doc = \" is exactly 1). Produced by MEM-4 Increment 2 (`rc == 1` reuse annotation, DN-33 §6 D-3): the\"] # [doc = \" runtime `RcCell::drop_ref` `UniqueOwner` branch is guaranteed to fire here, so the value's\"] # [doc = \" allocation is **FBIP-reuse-eligible** (the freed cell may be recycled by codegen). The static\"] # [doc = \" claim is **machine-verified** by [`crate::eval`] (it errors if the rc is not 1 here).\"] MoveUnique (VarId) , # [doc = \" `dup var; body` — increment `var`'s reference count, then evaluate `body`.\"] Dup { # [doc = \" The variable whose reference count is incremented.\"] var : VarId , # [doc = \" The continuation, evaluated after the increment.\"] body : Box < RcNode > , } , # [doc = \" `drop var; body` — decrement `var`'s reference count (reclaim at zero), then evaluate `body`.\"] Drop { # [doc = \" The variable whose reference count is decremented.\"] var : VarId , # [doc = \" The continuation, evaluated after the decrement.\"] body : Box < RcNode > , } , # [doc = \" `let r = body in (drop var; r)` — evaluate `body` to its result, **then** decrement `var`'s\"] # [doc = \" reference count (reclaim at zero), then yield the result. Distinct from [`RcNode::Drop`]\"] # [doc = \" (which decrements *before* its body): the borrowed value must stay live **through** its reads\"] # [doc = \" inside `body`, so its reclamation is placed *after* the body completes. Produced by MEM-4\"] # [doc = \" Increment 1 to reclaim a fully-borrowed binding once its reads are done.\"] DropAfter { # [doc = \" The variable reclaimed after `body` completes.\"] var : VarId , # [doc = \" The body evaluated (and read from) before the decrement.\"] body : Box < RcNode > , } , # [doc = \" A let binding. `id` is owned within `body`; its `Dup`/`Drop` annotations are placed at the\"] # [doc = \" top of `body` by the emission pass.\"] Let { # [doc = \" Bound name.\"] id : VarId , # [doc = \" The bound expression.\"] bound : Box < RcNode > , # [doc = \" The body in which `id` is in scope.\"] body : Box < RcNode > , } , # [doc = \" A paradigm-specific primitive application.\"] Op { # [doc = \" The primitive.\"] prim : Prim , # [doc = \" Operands.\"] args : Vec < RcNode > , } , # [doc = \" The representation-changing node (mirrors `Node::Swap`).\"] Swap { # [doc = \" The value being converted.\"] src : Box < RcNode > , # [doc = \" The target representation.\"] target : Repr , # [doc = \" The policy that chose/justified the swap.\"] policy : PolicyRef , } , # [doc = \" A saturated constructor application.\"] Construct { # [doc = \" The constructor.\"] ctor : CtorRef , # [doc = \" The field expressions, in declaration order.\"] args : Vec < RcNode > , } , # [doc = \" A flat pattern match.\"] Match { # [doc = \" The value being scrutinised.\"] scrutinee : Box < RcNode > , # [doc = \" The alternatives, tried first-match.\"] alts : Vec < RcAlt > , # [doc = \" The catch-all branch.\"] default : Option < Box < RcNode > > , } , # [doc = \" A lambda abstraction with an explicit ownership [`Mode`] on its parameter.\"] Lam { # [doc = \" The bound parameter.\"] param : VarId , # [doc = \" The parameter's ownership mode (`Owned` in the naive emission; `Borrowed` after elision).\"] mode : Mode , # [doc = \" The body, in scope of `param`.\"] body : Box < RcNode > , } , # [doc = \" Application — apply `func` to `arg`, call-by-value.\"] App { # [doc = \" The function being applied.\"] func : Box < RcNode > , # [doc = \" The argument.\"] arg : Box < RcNode > , } , }",
+      "reason": "enum `RcNode` has a named-field variant referencing a type not resolvable in-file — emitting it positionally would introduce an unresolved reference that poisons the file's `myc check`; left gapped under the M-1006 resolvability gate (VR-5/G2)",
+      "item_name": "RcNode"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "line": 178,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl RcNode { # [doc = \" Wrap `body` in `n` nested `Dup { var }` nodes (innermost is `body`).\"] # [doc = \"\"] # [doc = \" Used by the emission pass to give an owned binding one reference per extra use.\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — produces exactly `n` `Dup` wrappers.\"] # [must_use] pub fn dup_n (var : & VarId , n : usize , body : RcNode) -> RcNode { let mut acc = body ; for _ in 0 .. n { acc = RcNode :: Dup { var : var . clone () , body : Box :: new (acc) , } ; } acc } # [doc = \" Wrap `body` in a single `Drop { var }` node.\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — produces exactly one `Drop` wrapper.\"] # [must_use] pub fn drop_one (var : & VarId , body : RcNode) -> RcNode { RcNode :: Drop { var : var . clone () , body : Box :: new (body) , } } # [doc = \" Wrap `body` in a single `DropAfter { var }` node (reclaim `var` *after* `body`).\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — produces exactly one `DropAfter` wrapper.\"] # [must_use] pub fn drop_after (var : & VarId , body : RcNode) -> RcNode { RcNode :: DropAfter { var : var . clone () , body : Box :: new (body) , } } }",
+      "reason": "no member of this impl block could be transpiled (3 sub-issue(s)): impl method `dup_n` body: function body has a semicolon-terminated (value-discarding) statement expression before the tail — a `let`-chain body maps only simple `let x = e;` bindings plus a single trailing expression; impl method `drop_one` body: struct literal `Drop { .. }` — not an in-file single-ctor struct or enum struct-variant that emits (no constructor to build; a cross-nodule variant is an honest DN-113/DN-134-OQ-2 resolvability gap, never a fabricated out-of-file reference — VR-5/G2); impl method `drop_after` body: struct literal `DropAfter { .. }` — not an in-file single-ctor struct or enum struct-variant that emits (no constructor to build; a cross-nodule variant is an honest DN-113/DN-134-OQ-2 resolvability gap, never a fabricated out-of-file reference — VR-5/G2)",
+      "item_name": "RcNode"
+    }
+  ],
+  "total_top_level_items": 5
+}

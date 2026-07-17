@@ -1,0 +1,226 @@
+{
+  "files": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "total_items": 11,
+      "non_test_items": 11,
+      "emitted": 4,
+      "gaps": 14,
+      "expressible_pct": 36.36363636363637,
+      "category_counts": {
+        "DeriveAttr": 1,
+        "DeriveSatisfied": 2,
+        "Impl": 3,
+        "Import": 3,
+        "NamedFieldDrop": 1,
+        "Other": 3,
+        "PayloadVariant": 1
+      }
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "total_items": 20,
+      "non_test_items": 20,
+      "emitted": 8,
+      "gaps": 26,
+      "expressible_pct": 40.0,
+      "category_counts": {
+        "DeriveAttr": 4,
+        "DeriveSatisfied": 5,
+        "Impl": 3,
+        "Import": 3,
+        "MacroInvocation": 1,
+        "NamedFieldDrop": 3,
+        "Other": 7
+      }
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/emit.rs",
+      "total_items": 31,
+      "non_test_items": 31,
+      "emitted": 7,
+      "gaps": 30,
+      "expressible_pct": 22.58064516129032,
+      "category_counts": {
+        "DeriveSatisfied": 2,
+        "Impl": 4,
+        "Import": 6,
+        "NamedFieldDrop": 1,
+        "Other": 16,
+        "Struct": 1
+      }
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "total_items": 23,
+      "non_test_items": 23,
+      "emitted": 2,
+      "gaps": 26,
+      "expressible_pct": 8.695652173913043,
+      "category_counts": {
+        "DeriveAttr": 2,
+        "DeriveSatisfied": 1,
+        "Impl": 5,
+        "Import": 4,
+        "NamedFieldDrop": 1,
+        "Other": 10,
+        "PayloadVariant": 1,
+        "Struct": 2
+      }
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/lib.rs",
+      "total_items": 6,
+      "non_test_items": 0,
+      "emitted": 0,
+      "gaps": 7,
+      "expressible_pct": 0.0,
+      "category_counts": {
+        "InnerAttr": 1,
+        "ModuleDecl": 5,
+        "TestItem": 1
+      }
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+      "total_items": 5,
+      "non_test_items": 5,
+      "emitted": 1,
+      "gaps": 8,
+      "expressible_pct": 20.0,
+      "category_counts": {
+        "DeriveAttr": 1,
+        "DeriveSatisfied": 3,
+        "Impl": 1,
+        "Import": 1,
+        "PayloadVariant": 2
+      }
+    }
+  ],
+  "totals": {
+    "total_items": 96,
+    "non_test_items": 90,
+    "emitted": 22,
+    "gaps": 111,
+    "expressible_pct": 24.444444444444443,
+    "category_counts": {
+      "DeriveAttr": 8,
+      "DeriveSatisfied": 13,
+      "Impl": 16,
+      "Import": 17,
+      "InnerAttr": 1,
+      "MacroInvocation": 1,
+      "ModuleDecl": 5,
+      "NamedFieldDrop": 6,
+      "Other": 36,
+      "PayloadVariant": 4,
+      "Struct": 3,
+      "TestItem": 1
+    }
+  },
+  "remap": {
+    "phylum": {
+      "source_crate": "mycelium-mir-passes",
+      "target_phylum": "mir.passes"
+    },
+    "nodules": [
+      {
+        "target_nodule": "mir.passes.balance",
+        "operation": "Keep",
+        "sources": [
+          {
+            "rust_path": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+            "rust_span": null,
+            "moved_items": []
+          }
+        ],
+        "rationale": "structure-preserving 1:1 (DN-109 §5.3-B v0 default: every emitted nodule keeps its source file's mod-tree position, no restructuring proposed)",
+        "safety": "Safe",
+        "api_surface_changed": false,
+        "identity_neutral": true,
+        "guarantee": "Declared"
+      },
+      {
+        "target_nodule": "mir.passes.corpus",
+        "operation": "Keep",
+        "sources": [
+          {
+            "rust_path": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+            "rust_span": null,
+            "moved_items": []
+          }
+        ],
+        "rationale": "structure-preserving 1:1 (DN-109 §5.3-B v0 default: every emitted nodule keeps its source file's mod-tree position, no restructuring proposed)",
+        "safety": "Safe",
+        "api_surface_changed": false,
+        "identity_neutral": true,
+        "guarantee": "Declared"
+      },
+      {
+        "target_nodule": "mir.passes.emit",
+        "operation": "Keep",
+        "sources": [
+          {
+            "rust_path": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/emit.rs",
+            "rust_span": null,
+            "moved_items": []
+          }
+        ],
+        "rationale": "structure-preserving 1:1 (DN-109 §5.3-B v0 default: every emitted nodule keeps its source file's mod-tree position, no restructuring proposed)",
+        "safety": "Safe",
+        "api_surface_changed": false,
+        "identity_neutral": true,
+        "guarantee": "Declared"
+      },
+      {
+        "target_nodule": "mir.passes.eval",
+        "operation": "Keep",
+        "sources": [
+          {
+            "rust_path": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+            "rust_span": null,
+            "moved_items": []
+          }
+        ],
+        "rationale": "structure-preserving 1:1 (DN-109 §5.3-B v0 default: every emitted nodule keeps its source file's mod-tree position, no restructuring proposed)",
+        "safety": "Safe",
+        "api_surface_changed": false,
+        "identity_neutral": true,
+        "guarantee": "Declared"
+      },
+      {
+        "target_nodule": "mir.passes",
+        "operation": "Keep",
+        "sources": [
+          {
+            "rust_path": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/lib.rs",
+            "rust_span": null,
+            "moved_items": []
+          }
+        ],
+        "rationale": "structure-preserving 1:1 (DN-109 §5.3-B v0 default: every emitted nodule keeps its source file's mod-tree position, no restructuring proposed)",
+        "safety": "Safe",
+        "api_surface_changed": false,
+        "identity_neutral": true,
+        "guarantee": "Declared"
+      },
+      {
+        "target_nodule": "mir.passes.rc_ir",
+        "operation": "Keep",
+        "sources": [
+          {
+            "rust_path": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/rc_ir.rs",
+            "rust_span": null,
+            "moved_items": []
+          }
+        ],
+        "rationale": "structure-preserving 1:1 (DN-109 §5.3-B v0 default: every emitted nodule keeps its source file's mod-tree position, no restructuring proposed)",
+        "safety": "Safe",
+        "api_surface_changed": false,
+        "identity_neutral": true,
+        "guarantee": "Declared"
+      }
+    ],
+    "idiom_choices": []
+  }
+}

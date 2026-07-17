@@ -1,0 +1,47 @@
+// nodule: mir.passes.eval
+// Reference RC-evaluator + differential harness — MEM-4 / DN-33 §8.1 Q3 (differential half).
+//
+// An **abstract reference-counting machine** over the RC-annotated IR's straight-line fragment
+// (`Const/Let/Op/Swap/Var/Borrow/Dup/Drop/DropAfter`). It does **not** compute values — it tracks
+// *references* and *reclamations* — and so serves as the executable semantics against which the
+// borrow elision is checked: [`differential`] runs a term's owned emission and its borrow-elided
+// emission and asserts they reclaim **the same multiset of values** (semantics-preserving) with
+// **no use-after-free**.
+//
+// # Accounting model (closed program)
+//
+// Each allocation (`Const`, and the fresh result of an `Op`/`Swap`) gets a distinct [`AllocId`]
+// with reference count 1. `Dup` increments; `Drop`/`DropAfter` and a consuming `Var` **move**
+// decrement (reclaiming at zero, logged in order); a `Borrow` is a non-consuming **read** that
+// asserts the value is still live. Reclamation order/identity is deterministic (allocation order is
+// fixed by the term skeleton, which is identical for the owned and elided emissions), so the two
+// reclamation logs are directly comparable.
+//
+// # Honesty (VR-5)
+//
+// This is an **abstract** machine (references + reclamation, not data): the consuming/reader
+// distinction is modelled, but operand *content* is not, so it checks the RC discipline, not value
+// correctness. Control-flow nodes (`App/Match/Construct/Lam`) and recursion are **out of the
+// straight-line fragment** and return an explicit [`RcError::UnsupportedNode`] (G2 — never-silent);
+// the differential corpus is straight-line. The elision's semantics-preservation is therefore
+// `Empirical` (differential trials over a corpus), not `Proven`.
+// @summary: best-effort transpilation via mycelium-transpile (M-873). Declared,
+// unvalidated — no Mycelium parser/typechecker confirms this output; see the
+// accompanying .gap.json for every construct this pass could not express.
+nodule mir.passes.eval;
+
+// The verdict of a differential run on one term (DN-33 §8.1 Q3).
+type Differential = Differential(Bool, Binary{64}, Binary{64});
+
+impl Show[Differential] for Differential {
+  fn render(x: Differential) => Bytes =
+    match x { Differential(p0, p1, p2) => bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat(bytes_concat("Differential(", render(p0)), ", "), render(p1)), ", "), render(p2)), ")") };
+};
+
+fn eq_Differential(a: Differential, b: Differential) => Binary{1} =
+    match a { Differential(p0, p1, p2) => match b { Differential(q0, q1, q2) => and(and(match p0 { True => match q0 { True => 0b1, False => 0b0 }, False => match q0 { True => 0b0, False => 0b1 } }, eq(p1, q1)), eq(p2, q2)) } };
+
+impl Differential {
+  // The elision is **semantics-preserving** iff the reclamation multisets match.
+  fn is_semantics_preserving(self: Differential) => Bool = (match self { Differential(p0, _, _) => p0 });
+};

@@ -1,0 +1,276 @@
+{
+  "source": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+  "emitted_items": [
+    "co-emit:Result",
+    "co-include:emit_elided,emit_reuse,EmitError",
+    "CorpusReport",
+    "CorpusError",
+    "measure_standard",
+    "Mem4Row",
+    "Mem4Report",
+    "measure_mem4_standard"
+  ],
+  "gaps": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 32,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use mycelium_core :: { Meta , Node , Payload , Provenance , Repr , Value } ;",
+      "reason": "`use mycelium_core::Meta` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Node` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Payload` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Provenance` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Repr` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_core::Value` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 34,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use crate :: emit :: { emit_elided , emit_owned , emit_reuse , EmitError } ;",
+      "reason": "`use emit::emit_owned` — `emit_owned` is not among sibling `emit`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:emit_elided,emit_reuse,EmitError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 35,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use crate :: eval :: { count_dups , count_move_unique , differential , eval , RcError } ;",
+      "reason": "`use eval::count_dups` — `count_dups` is not among sibling `eval`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2); `use eval::count_move_unique` — `count_move_unique` is not among sibling `eval`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2); `use eval::differential` — `differential` is not among sibling `eval`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2); `use eval::eval` — `eval` is not among sibling `eval`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2); `use eval::RcError` — `RcError` is not among sibling `eval`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 39,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "fn bit (b : bool) -> Value { Value :: new (Repr :: Binary { width : 1 } , Payload :: Bits (vec ! [b]) , Meta :: exact (Provenance :: Root) ,) . expect (\"1-bit value is well-formed\") }",
+      "reason": "method call `.expect(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__expect` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `expect(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "bit"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 48,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "fn konst () -> Node { Node :: Const (bit (true)) }",
+      "reason": "qualified/associated-function call `Node :: Const` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "konst"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 52,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "fn var (name : & str) -> Node { Node :: Var (name . to_owned ()) }",
+      "reason": "qualified/associated-function call `Node :: Var` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "var"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 56,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "fn let_ (name : & str , bound : Node , body : Node) -> Node { Node :: Let { id : name . to_owned () , bound : Box :: new (bound) , body : Box :: new (body) , } }",
+      "reason": "struct literal `Let { .. }` — not an in-file single-ctor struct or enum struct-variant that emits (no constructor to build; a cross-nodule variant is an honest DN-113/DN-134-OQ-2 resolvability gap, never a fabricated out-of-file reference — VR-5/G2)",
+      "item_name": "let_"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 64,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" A reader-primitive application of `x` repeated `k` times: `op(x, x, …, x)`.\"] fn reads (x : & str , k : usize) -> Node { Node :: Op { prim : \"read\" . to_owned () , args : (0 .. k) . map (| _ | var (x)) . collect () , } }",
+      "reason": "struct literal `Op { .. }` — not an in-file single-ctor struct or enum struct-variant that emits (no constructor to build; a cross-nodule variant is an honest DN-113/DN-134-OQ-2 resolvability gap, never a fabricated out-of-file reference — VR-5/G2)",
+      "item_name": "reads"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 74,
+      "col": 1,
+      "category": "MacroInvocation",
+      "rust_construct": "MacroInvocation",
+      "snippet": "# [doc = \" A representative, **mixed** corpus of straight-line Core IR terms (named for the report).\"] # [doc = \"\"] # [doc = \" Includes elision-friendly terms (a `let` read `k≥2` times by reader primitives — where elision\"] # [doc = \" removes `k-1` `Dup`s) **and** elision-neutral terms (a value that escapes to the result or into\"] # [doc = \" another binding, which stays fully owned). The mix keeps the measured ratio honest.\"] # [must_use] pub fn standard_corpus () -> Vec < (& 'static str , Node) > { vec ! [(\"reader_x2\" , let_ (\"x\" , konst () , reads (\"x\" , 2))) , (\"reader_x4\" , let_ (\"x\" , konst () , reads (\"x\" , 4))) , (\"reader_x8\" , let_ (\"x\" , konst () , reads (\"x\" , 8))) , (\"nested_readers\" , let_ (\"a\" , konst () , let_ (\"b\" , reads (\"a\" , 2) , reads (\"b\" , 3))) ,) , (\"chain_of_readers\" , let_ (\"x\" , konst () , let_ (\"y\" , reads (\"x\" , 3) , let_ (\"z\" , reads (\"y\" , 3) , reads (\"z\" , 3))) ,) ,) , (\"single_read\" , let_ (\"x\" , konst () , reads (\"x\" , 1))) , (\"result_move\" , let_ (\"x\" , konst () , var (\"x\"))) , (\"borrow_then_sole_move\" , let_ (\"x\" , konst () , let_ (\"y\" , reads (\"x\" , 2) , var (\"y\"))) ,) , (\"sole_move_after_drop\" , let_ (\"x\" , konst () , let_ (\"y\" , konst () , var (\"y\"))) ,) , (\"partial_escape\" , let_ (\"x\" , konst () , let_ (\"_t\" , reads (\"x\" , 2) , var (\"x\"))) ,) , (\"bare_const\" , konst ()) ,] }",
+      "reason": "expression-position macro `vec` — no macro system in this grammar fragment (`write!`/`format!` lower to pure `Bytes` per DN-127/M-1090 WU-3)",
+      "item_name": "standard_corpus"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 127,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" The per-corpus measurement: the Q5 number plus the semantics-preservation guarantee.\"] # [derive (Debug , Clone , PartialEq)] pub struct CorpusReport { # [doc = \" Number of terms measured.\"] pub n_terms : usize , # [doc = \" Total `Dup`s emitted by the naive owned lowering across the corpus.\"] pub owned_dups : usize , # [doc = \" Total `Dup`s emitted by the borrow-elided lowering across the corpus.\"] pub elided_dups : usize , # [doc = \" Whether **every** term's elision was semantics-preserving (same reclamations, no UAF).\"] pub all_semantics_preserved : bool , # [doc = \" Per-term `(name, owned_dups, elided_dups, preserved)` rows (for an EXPLAIN-able report).\"] pub rows : Vec < (& 'static str , usize , usize , bool) > , }",
+      "reason": "struct `CorpusReport` named field(s) `n_terms, owned_dups, elided_dups, all_semantics_preserved, rows` emitted positionally as `CorpusReport(Binary{64}, Binary{64}, Binary{64}, Bool, Vec[(Bytes, Binary{64}, Binary{64}, Bool)])` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "CorpusReport"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 127,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The per-corpus measurement: the Q5 number plus the semantics-preservation guarantee.\"] # [derive (Debug , Clone , PartialEq)] pub struct CorpusReport { # [doc = \" Number of terms measured.\"] pub n_terms : usize , # [doc = \" Total `Dup`s emitted by the naive owned lowering across the corpus.\"] pub owned_dups : usize , # [doc = \" Total `Dup`s emitted by the borrow-elided lowering across the corpus.\"] pub elided_dups : usize , # [doc = \" Whether **every** term's elision was semantics-preserving (same reclamations, no UAF).\"] pub all_semantics_preserved : bool , # [doc = \" Per-term `(name, owned_dups, elided_dups, preserved)` rows (for an EXPLAIN-able report).\"] pub rows : Vec < (& 'static str , usize , usize , bool) > , }",
+      "reason": "struct `CorpusReport` derive(Debug): field 4 has type `Vec[(Bytes, Binary{64}, Binary{64}, Bool)]`, a `Vec` field whose element type `(Bytes, Binary{64}, Binary{64}, Bool)` has no `Show` route of its own (a `Vec`-of-`Vec` or a `Float`/other-bracketed element -- DN-138 section 6, WU-4's disclosed depth-1 scope) — the whole derive is left an honest gap rather than a partial/fabricated render (G2)",
+      "item_name": "CorpusReport"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 127,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The per-corpus measurement: the Q5 number plus the semantics-preservation guarantee.\"] # [derive (Debug , Clone , PartialEq)] pub struct CorpusReport { # [doc = \" Number of terms measured.\"] pub n_terms : usize , # [doc = \" Total `Dup`s emitted by the naive owned lowering across the corpus.\"] pub owned_dups : usize , # [doc = \" Total `Dup`s emitted by the borrow-elided lowering across the corpus.\"] pub elided_dups : usize , # [doc = \" Whether **every** term's elision was semantics-preserving (same reclamations, no UAF).\"] pub all_semantics_preserved : bool , # [doc = \" Per-term `(name, owned_dups, elided_dups, preserved)` rows (for an EXPLAIN-able report).\"] pub rows : Vec < (& 'static str , usize , usize , bool) > , }",
+      "reason": "struct `CorpusReport` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "CorpusReport"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 127,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The per-corpus measurement: the Q5 number plus the semantics-preservation guarantee.\"] # [derive (Debug , Clone , PartialEq)] pub struct CorpusReport { # [doc = \" Number of terms measured.\"] pub n_terms : usize , # [doc = \" Total `Dup`s emitted by the naive owned lowering across the corpus.\"] pub owned_dups : usize , # [doc = \" Total `Dup`s emitted by the borrow-elided lowering across the corpus.\"] pub elided_dups : usize , # [doc = \" Whether **every** term's elision was semantics-preserving (same reclamations, no UAF).\"] pub all_semantics_preserved : bool , # [doc = \" Per-term `(name, owned_dups, elided_dups, preserved)` rows (for an EXPLAIN-able report).\"] pub rows : Vec < (& 'static str , usize , usize , bool) > , }",
+      "reason": "struct `CorpusReport` derive(PartialEq): field 4 has type `Vec[(Bytes, Binary{64}, Binary{64}, Bool)]`, a `Vec` field whose element type `(Bytes, Binary{64}, Binary{64}, Bool)` has no equality route of its own (a `Vec`-of-`Vec` or a `Float`/other-bracketed element -- DN-138 section 6, WU-4's disclosed depth-1 scope) — the whole derive is left an honest gap rather than a partial/fabricated equality (G2)",
+      "item_name": "CorpusReport"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 142,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl CorpusReport { # [doc = \" The aggregate `Dup`-reduction ratio in `[0, 1]` — `(owned - elided) / owned`, or `0.0` if the\"] # [doc = \" owned lowering emitted no `Dup`s. **`Exact`** for this corpus (a count ratio).\"] # [must_use] pub fn reduction_ratio (& self) -> f64 { if self . owned_dups == 0 { 0.0 } else { (self . owned_dups - self . elided_dups) as f64 / self . owned_dups as f64 } } # [doc = \" Total `Dup`s removed by elision across the corpus.\"] # [must_use] pub fn dups_removed (& self) -> usize { self . owned_dups . saturating_sub (self . elided_dups) } }",
+      "reason": "no member of this impl block could be transpiled (2 sub-issue(s)): impl method `reduction_ratio` body: PENDING-DESIGN(CU-3-fidelity): cast `(self . owned_dups - self . elided_dups) as f64` crosses the Binary/Float boundary — Rust `as` is lossy here (float->int *saturates*, int->float *rounds*), but the CU-3 kernel prims are checked/refusing (`flt.to_bin` refuses out-of-range; `bin.to_flt` errs |n| > 2^53 — ADR-040 §2.4), so no faithful prim exists. The faithful form is the reified lossy swap (ADR-040 §2.4/§5, NOT a prim), which the transpiler cannot emit yet — explicit gap (G2/VR-5); impl method `dups_removed` body: Rust `.saturating_sub` is saturating (silent clamp) — Mycelium has no saturating prim surface; desugaring to `saturating_sub(…)` would fabricate an unknown prim or lie about overflow (G2/VR-5). Gap never-silently (express gap-close 2026-07-16).",
+      "item_name": "CorpusReport"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 161,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Errors a corpus measurement can surface (never-silent).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum CorpusError { # [doc = \" A term failed to lower.\"] Emit (EmitError) , # [doc = \" A term's differential run errored (a use-after-free / double-free would be a soundness bug).\"] Eval (RcError) , }",
+      "reason": "enum `CorpusError` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "CorpusError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 161,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" Errors a corpus measurement can surface (never-silent).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum CorpusError { # [doc = \" A term failed to lower.\"] Emit (EmitError) , # [doc = \" A term's differential run errored (a use-after-free / double-free would be a soundness bug).\"] Eval (RcError) , }",
+      "reason": "enum `CorpusError` derive(Eq): covered by co-occurring PartialEq → `fn eq_CorpusError` (product-row collision policy; DN-128 / ONESHOT C2) — not a second emission",
+      "item_name": "CorpusError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 170,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl std :: fmt :: Display for CorpusError { fn fmt (& self , f : & mut std :: fmt :: Formatter < '_ >) -> std :: fmt :: Result { match self { CorpusError :: Emit (e) => write ! (f , \"corpus emit error: {e}\") , CorpusError :: Eval (e) => write ! (f , \"corpus eval error: {e}\") , } } }",
+      "reason": "trait-impl of non-prelude trait `Display` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "CorpusError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 179,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl std :: error :: Error for CorpusError { }",
+      "reason": "trait-impl of non-prelude trait `Error` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "CorpusError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 181,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Measure Increment 1 over `corpus`: aggregate `Dup` counts (owned vs elided) and confirm every\"] # [doc = \" term's elision is semantics-preserving (the Q5 gate).\"] # [doc = \"\"] # [doc = \" Returns a [`CorpusReport`]. Errors (never-silent) if any term fails to lower or its differential\"] # [doc = \" run faults — either would be a soundness failure, not a measurement.\"] pub fn measure (corpus : & [(& 'static str , Node)]) -> Result < CorpusReport , CorpusError > { let mut owned_dups = 0 ; let mut elided_dups = 0 ; let mut all_preserved = true ; let mut rows = Vec :: with_capacity (corpus . len ()) ; for (name , term) in corpus { let owned = emit_owned (term) . map_err (CorpusError :: Emit) ? ; let elided = emit_elided (term) . map_err (CorpusError :: Emit) ? ; let o = count_dups (& owned) ; let e = count_dups (& elided) ; let diff = differential (& owned , & elided) . map_err (CorpusError :: Eval) ? ; owned_dups += o ; elided_dups += e ; all_preserved &= diff . is_semantics_preserving () ; rows . push ((* name , o , e , diff . is_semantics_preserving ())) ; } Ok (CorpusReport { n_terms : corpus . len () , owned_dups , elided_dups , all_semantics_preserved : all_preserved , rows , }) }",
+      "reason": "qualified/associated-function call `Vec :: with_capacity` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "measure"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 227,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" One term's row in a [`Mem4Report`].\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Mem4Row { # [doc = \" The corpus term's name.\"] pub name : & 'static str , # [doc = \" `RcNode::MoveUnique` annotations emitted by [`emit_reuse`] for this term (Increment 2).\"] pub reuse_sites : usize , # [doc = \" `rc → 0` reclamations over the elided emission (this term's RFC-0027 §9 audit-trail size).\"] pub reclamations : usize , # [doc = \" Whether the reuse emission evaluated soundly (no `UnsoundUnique` / use-after-free) —\"] # [doc = \" machine-verified: every `MoveUnique` was reached at a reference count of exactly 1.\"] pub sound : bool , # [doc = \" Whether the reuse emission reclaimed the **same multiset** as the owned emission.\"] pub preserved : bool , }",
+      "reason": "struct `Mem4Row` named field(s) `name, reuse_sites, reclamations, sound, preserved` emitted positionally as `Mem4Row(Bytes, Binary{64}, Binary{64}, Bool, Bool)` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "Mem4Row"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 227,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" One term's row in a [`Mem4Report`].\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Mem4Row { # [doc = \" The corpus term's name.\"] pub name : & 'static str , # [doc = \" `RcNode::MoveUnique` annotations emitted by [`emit_reuse`] for this term (Increment 2).\"] pub reuse_sites : usize , # [doc = \" `rc → 0` reclamations over the elided emission (this term's RFC-0027 §9 audit-trail size).\"] pub reclamations : usize , # [doc = \" Whether the reuse emission evaluated soundly (no `UnsoundUnique` / use-after-free) —\"] # [doc = \" machine-verified: every `MoveUnique` was reached at a reference count of exactly 1.\"] pub sound : bool , # [doc = \" Whether the reuse emission reclaimed the **same multiset** as the owned emission.\"] pub preserved : bool , }",
+      "reason": "struct `Mem4Row` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Mem4Row"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 227,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" One term's row in a [`Mem4Report`].\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Mem4Row { # [doc = \" The corpus term's name.\"] pub name : & 'static str , # [doc = \" `RcNode::MoveUnique` annotations emitted by [`emit_reuse`] for this term (Increment 2).\"] pub reuse_sites : usize , # [doc = \" `rc → 0` reclamations over the elided emission (this term's RFC-0027 §9 audit-trail size).\"] pub reclamations : usize , # [doc = \" Whether the reuse emission evaluated soundly (no `UnsoundUnique` / use-after-free) —\"] # [doc = \" machine-verified: every `MoveUnique` was reached at a reference count of exactly 1.\"] pub sound : bool , # [doc = \" Whether the reuse emission reclaimed the **same multiset** as the owned emission.\"] pub preserved : bool , }",
+      "reason": "struct `Mem4Row` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "Mem4Row"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 243,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" The Increment-2 + audit-trail measurement over a corpus (the companion to the Q5 [`CorpusReport`]).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Mem4Report { # [doc = \" Number of terms measured.\"] pub n_terms : usize , # [doc = \" Total `rc == 1` reuse sites (`MoveUnique` annotations) emitted across the corpus.\"] pub reuse_sites : usize , # [doc = \" Total `rc → 0` reclamations across the corpus (the aggregate §9 audit-trail size).\"] pub reclamations : usize , # [doc = \" Whether **every** term's reuse annotations were machine-verified sound (rc == 1 at each).\"] pub all_reuse_sound : bool , # [doc = \" Whether **every** term's reuse emission preserved the owned reclamation multiset.\"] pub all_semantics_preserved : bool , # [doc = \" Per-term rows (for an EXPLAIN-able report).\"] pub rows : Vec < Mem4Row > , }",
+      "reason": "struct `Mem4Report` named field(s) `n_terms, reuse_sites, reclamations, all_reuse_sound, all_semantics_preserved, rows` emitted positionally as `Mem4Report(Binary{64}, Binary{64}, Binary{64}, Bool, Bool, Vec[Mem4Row])` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "Mem4Report"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 243,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The Increment-2 + audit-trail measurement over a corpus (the companion to the Q5 [`CorpusReport`]).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Mem4Report { # [doc = \" Number of terms measured.\"] pub n_terms : usize , # [doc = \" Total `rc == 1` reuse sites (`MoveUnique` annotations) emitted across the corpus.\"] pub reuse_sites : usize , # [doc = \" Total `rc → 0` reclamations across the corpus (the aggregate §9 audit-trail size).\"] pub reclamations : usize , # [doc = \" Whether **every** term's reuse annotations were machine-verified sound (rc == 1 at each).\"] pub all_reuse_sound : bool , # [doc = \" Whether **every** term's reuse emission preserved the owned reclamation multiset.\"] pub all_semantics_preserved : bool , # [doc = \" Per-term rows (for an EXPLAIN-able report).\"] pub rows : Vec < Mem4Row > , }",
+      "reason": "struct `Mem4Report` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Mem4Report"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 243,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The Increment-2 + audit-trail measurement over a corpus (the companion to the Q5 [`CorpusReport`]).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Mem4Report { # [doc = \" Number of terms measured.\"] pub n_terms : usize , # [doc = \" Total `rc == 1` reuse sites (`MoveUnique` annotations) emitted across the corpus.\"] pub reuse_sites : usize , # [doc = \" Total `rc → 0` reclamations across the corpus (the aggregate §9 audit-trail size).\"] pub reclamations : usize , # [doc = \" Whether **every** term's reuse annotations were machine-verified sound (rc == 1 at each).\"] pub all_reuse_sound : bool , # [doc = \" Whether **every** term's reuse emission preserved the owned reclamation multiset.\"] pub all_semantics_preserved : bool , # [doc = \" Per-term rows (for an EXPLAIN-able report).\"] pub rows : Vec < Mem4Row > , }",
+      "reason": "struct `Mem4Report` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "Mem4Report"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/corpus.rs",
+      "line": 260,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Measure Increment 2 + the audit trail over `corpus`: aggregate the reuse-site and\"] # [doc = \" reclamation-record counts and confirm every reuse annotation is machine-verified sound and\"] # [doc = \" semantics-preserving.\"] # [doc = \"\"] # [doc = \" A term that fails to **lower** is a real error (never-silent → [`CorpusError::Emit`]). A reuse\"] # [doc = \" emission that **evaluates** unsoundly is **not** an abort: it is recorded as `sound = false` in\"] # [doc = \" its row (so the report honestly carries the failure rather than hiding it behind an early return);\"] # [doc = \" the aggregate `all_reuse_sound` then reflects it. The straight-line corpus is sound by\"] # [doc = \" construction, so `all_reuse_sound` is the *evidence* of that, measured rather than assumed.\"] pub fn measure_mem4 (corpus : & [(& 'static str , Node)]) -> Result < Mem4Report , CorpusError > { let mut reuse_sites = 0 ; let mut reclamations = 0 ; let mut all_sound = true ; let mut all_preserved = true ; let mut rows = Vec :: with_capacity (corpus . len ()) ; for (name , term) in corpus { let owned = emit_owned (term) . map_err (CorpusError :: Emit) ? ; let elided = emit_elided (term) . map_err (CorpusError :: Emit) ? ; let reuse = emit_reuse (term) . map_err (CorpusError :: Emit) ? ; let sites = count_move_unique (& reuse) ; let reuse_eval = eval (& reuse) ; let sound = reuse_eval . is_ok () ; let records = eval (& elided) . map_err (CorpusError :: Eval) ? . reclaimed . len () ; let preserved = match (& reuse_eval , eval (& owned)) { (Ok (r) , Ok (o)) => r . reclaimed_sorted () == o . reclaimed_sorted () , _ => false , } ; reuse_sites += sites ; reclamations += records ; all_sound &= sound ; all_preserved &= preserved ; rows . push (Mem4Row { name , reuse_sites : sites , reclamations : records , sound , preserved , }) ; } Ok (Mem4Report { n_terms : corpus . len () , reuse_sites , reclamations , all_reuse_sound : all_sound , all_semantics_preserved : all_preserved , rows , }) }",
+      "reason": "qualified/associated-function call `Vec :: with_capacity` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "measure_mem4"
+    }
+  ],
+  "total_top_level_items": 20
+}

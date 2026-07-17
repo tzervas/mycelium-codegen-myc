@@ -1,0 +1,270 @@
+{
+  "source": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+  "emitted_items": [
+    "Differential",
+    "impl Differential"
+  ],
+  "gaps": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 28,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use std :: collections :: HashMap ;",
+      "reason": "`use std.collections::HashMap` — `std.collections` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 30,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use mycelium_core :: VarId ;",
+      "reason": "`use mycelium_core::VarId` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 31,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use mycelium_workstack :: { ensure_sufficient_stack , BudgetError , RecursionBudget } ;",
+      "reason": "`use mycelium_workstack::ensure_sufficient_stack` — `mycelium_workstack` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_workstack::BudgetError` — `mycelium_workstack` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2); `use mycelium_workstack::RecursionBudget` — `mycelium_workstack` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 33,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use crate :: rc_ir :: RcNode ;",
+      "reason": "`use rc_ir::RcNode` — `RcNode` is not among sibling `rc_ir`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 35,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" A distinct allocation identity (assigned in evaluation order).\"] pub type AllocId = u64 ;",
+      "reason": "`type AllocId = ...` alias — Mycelium's `type_item` always introduces a new nominal sum type via `'=' constructor ('|' constructor)*`; a bare alias to an existing type would fabricate a sum type where none exists semantically",
+      "item_name": "AllocId"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 38,
+      "col": 1,
+      "category": "PayloadVariant",
+      "rust_construct": "PayloadVariant",
+      "snippet": "# [doc = \" An RC-discipline violation detected by the evaluator (never-silent, G2).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum RcError { # [doc = \" A variable was used with no binding in scope.\"] UnboundVar (VarId) , # [doc = \" A value was read (`Borrow`) or moved after it had already been reclaimed (rc was 0).\"] UseAfterFree (VarId) , # [doc = \" A reference count was decremented below zero (over-release / double free).\"] DoubleFree (VarId) , # [doc = \" A `MoveUnique` annotation (Increment 2) was reached where the reference count was **not** 1 —\"] # [doc = \" i.e. the static \\\"sole owner\\\" claim is false. This catches an unsound reuse annotation.\"] UnsoundUnique { # [doc = \" The annotated variable.\"] var : VarId , # [doc = \" The actual reference count found (≠ 1).\"] found : i64 , } , # [doc = \" A node outside the straight-line fragment (e.g. `App`/`Match`/`Construct`/`Lam`).\"] UnsupportedNode (& 'static str) , # [doc = \" The evaluator's own [`RcNode`]-traversal recursion (over `Let`'s `bound`/`body`, `Op`\"] # [doc = \" arguments, `Dup`/`Drop`/`DropAfter` wrappers, …) exceeded the shared\"] # [doc = \" [`mycelium_workstack::RecursionBudget`] depth ceiling (RFC-0041 §4.7 — the W7 guard hole in\"] # [doc = \" this AOT RC/ownership pass). Refused cleanly here rather than overflowing the host stack and\"] # [doc = \" SIGABRT-ing `myc build` (G2); reconciles with the `emit`-side [`crate::emit::EmitError::DepthExceeded`]\"] # [doc = \" and the interp/AOT `DepthLimit` family.\"] DepthExceeded { # [doc = \" The depth ceiling (recursion frames) that was reached.\"] limit : u32 , } , }",
+      "reason": "enum `RcError` has a named-field variant referencing a type not resolvable in-file — emitting it positionally would introduce an unresolved reference that poisons the file's `myc check`; left gapped under the M-1006 resolvability gate (VR-5/G2)",
+      "item_name": "RcError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 69,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl std :: fmt :: Display for RcError { fn fmt (& self , f : & mut std :: fmt :: Formatter < '_ >) -> std :: fmt :: Result { match self { RcError :: UnboundVar (v) => write ! (f , \"unbound variable `{v}`\") , RcError :: UseAfterFree (v) => write ! (f , \"use-after-free: `{v}` read/moved after reclaim\") , RcError :: DoubleFree (v) => { write ! (f , \"double free: reference count of `{v}` went negative\") } RcError :: UnsoundUnique { var , found } => write ! (f , \"unsound rc==1 annotation: `{var}` was marked sole-owner (MoveUnique) but its \\\n                 reference count was {found}, not 1\") , RcError :: UnsupportedNode (k) => { write ! (f , \"RC-evaluator does not support `{k}` (straight-line fragment only)\") } RcError :: DepthExceeded { limit } => write ! (f , \"RC-evaluator's own IR-traversal recursion exceeded the depth budget (limit \\\n                 {limit} frames) — refusing rather than overflowing the host stack (RFC-0041 §4.7, G2)\") , } } }",
+      "reason": "trait-impl of non-prelude trait `Display` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "RcError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 97,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl std :: error :: Error for RcError { }",
+      "reason": "trait-impl of non-prelude trait `Error` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "RcError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 99,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl From < BudgetError > for RcError { # [doc = \" [`eval`] only ever charges the depth guard ([`RecursionBudget::try_enter`]), so in practice\"] # [doc = \" this always sees [`BudgetError::DepthExceeded`]; the `OutOfBudget` arm is handled defensively\"] # [doc = \" (never a silent drop of the ceiling, G2) should a future increment add byte/step charging.\"] fn from (err : BudgetError) -> Self { match err { BudgetError :: DepthExceeded { limit } => RcError :: DepthExceeded { limit } , BudgetError :: OutOfBudget { limit , .. } => RcError :: DepthExceeded { limit : u32 :: try_from (limit) . unwrap_or (u32 :: MAX) , } , } } }",
+      "reason": "trait-impl of non-prelude trait `From` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "RcError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 113,
+      "col": 1,
+      "category": "Struct",
+      "rust_construct": "Struct",
+      "snippet": "# [doc = \" The outcome of evaluating a term: its result allocation and the reclamation log (in order).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct EvalReport { # [doc = \" The allocation yielded as the term's result (it escapes — not necessarily reclaimed).\"] pub result : AllocId , # [doc = \" The allocations reclaimed (reference count reached zero), in reclamation order.\"] pub reclaimed : Vec < AllocId > , }",
+      "reason": "struct `EvalReport` uses named fields and references a type not resolvable in-file — emitting it positionally would introduce an unresolved reference that poisons the file's `myc check`; left gapped under the M-1006 resolvability gate (VR-5/G2)",
+      "item_name": "EvalReport"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 122,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl EvalReport { # [doc = \" The reclamation log as a sorted multiset — the comparison key for [`differential`]\"] # [doc = \" (order-independent: elision may change *when* a value is reclaimed, not *whether*).\"] # [must_use] pub fn reclaimed_sorted (& self) -> Vec < AllocId > { let mut v = self . reclaimed . clone () ; v . sort_unstable () ; v } }",
+      "reason": "no member of this impl block could be transpiled (1 sub-issue(s)): impl method `reclaimed_sorted` body: Rust ownership/identity-conversion no-op method `.clone()` has no Mycelium free-function/prim referent (value semantics — ADR-003); desugaring it to a bare `clone(recv)` would fabricate an unknown prim (`unknown function/constructor/prim `clone`` — verified against the oracle), so it is gapped, never fake-emitted (G2/VR-5)",
+      "item_name": "EvalReport"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 133,
+      "col": 1,
+      "category": "Struct",
+      "rust_construct": "Struct",
+      "snippet": "struct Machine { next : AllocId , rc : HashMap < AllocId , i64 > , reclaimed : Vec < AllocId > , }",
+      "reason": "struct `Machine` uses named fields and references a type not resolvable in-file — emitting it positionally would introduce an unresolved reference that poisons the file's `myc check`; left gapped under the M-1006 resolvability gate (VR-5/G2)",
+      "item_name": "Machine"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 139,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl Machine { fn new () -> Self { Machine { next : 0 , rc : HashMap :: new () , reclaimed : Vec :: new () , } } fn alloc (& mut self) -> AllocId { let id = self . next ; self . next += 1 ; self . rc . insert (id , 1) ; id } fn dup (& mut self , a : AllocId) { * self . rc . entry (a) . or_insert (0) += 1 ; } # [doc = \" Decrement; reclaim at zero, error below zero.\"] fn dec (& mut self , a : AllocId , var : & VarId) -> Result < () , RcError > { let r = self . rc . entry (a) . or_insert (0) ; * r -= 1 ; if * r == 0 { self . reclaimed . push (a) ; Ok (()) } else if * r < 0 { Err (RcError :: DoubleFree (var . clone ())) } else { Ok (()) } } fn assert_live (& self , a : AllocId , var : & VarId) -> Result < () , RcError > { if self . rc . get (& a) . copied () . unwrap_or (0) > 0 { Ok (()) } else { Err (RcError :: UseAfterFree (var . clone ())) } } }",
+      "reason": "no member of this impl block could be transpiled (5 sub-issue(s)): impl method `new` body: struct literal `Machine { .. }` — not an in-file single-ctor struct or enum struct-variant that emits (no constructor to build; a cross-nodule variant is an honest DN-113/DN-134-OQ-2 resolvability gap, never a fabricated out-of-file reference — VR-5/G2); impl method `alloc` body: field projection `self.next` on `Machine` — not an in-file single-ctor struct that emits (an enum / external / non-resolvable type has no constructor to `match` against); impl method `dup` body: mutating method body statement is neither a `let`, a supported `self.<field>`/`*<param>` re-assignment, nor (in tail position) the method's own return value — value-threading deliberately refuses any shape outside a flat re-assignment sequence rather than risk an unsound rebind (DN-125 §6.1, never-silent G2/VR-5); impl method `dec` body: method call `.or_insert(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__or_insert` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `or_insert(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered); impl method `assert_live` body: method call `.unwrap_or(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__unwrap_or` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `unwrap_or(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "Machine"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 182,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Evaluate an [`RcNode`] in the abstract RC machine, returning its reclamation report.\"] # [doc = \"\"] # [doc = \" Errors (never-silent) on an unbound variable, a use-after-free, a double-free, or a node outside\"] # [doc = \" the straight-line fragment — and, per RFC-0041 §4.7 (the W7 guard hole in this AOT RC/ownership\"] # [doc = \" pass), on [`RcError::DepthExceeded`] if the traversal's own recursion exceeds the shared\"] # [doc = \" [`RecursionBudget`] depth ceiling. The outermost call runs on the deep worker stack\"] # [doc = \" ([`ensure_sufficient_stack`]) so a genuinely deep input never SIGABRTs `myc build`, and every\"] # [doc = \" recursive step charges [`RecursionBudget::try_enter`] so a pathological input refuses cleanly at\"] # [doc = \" the depth ceiling instead of exhausting even the deep worker stack.\"] pub fn eval (node : & RcNode) -> Result < EvalReport , RcError > { let outer = RecursionBudget :: default () ; ensure_sufficient_stack (& outer , | | { let budget = RecursionBudget :: default () ; let mut m = Machine :: new () ; let env = HashMap :: new () ; let result = go (node , & env , & mut m , & budget) ? ; Ok (EvalReport { result , reclaimed : m . reclaimed , }) }) }",
+      "reason": "qualified/associated-function call `RecursionBudget :: default` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "eval"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 209,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "fn lookup (env : & HashMap < VarId , AllocId > , x : & VarId) -> Result < AllocId , RcError > { env . get (x) . copied () . ok_or_else (| | RcError :: UnboundVar (x . clone ())) }",
+      "reason": "method call `.ok_or_else(...)` has no proven-emitted free-fn referent in this file (neither a D4-mangled inherent `Type__ok_or_else` nor a bare inherent recorded by this file's left-to-right pass, nor a prim_map / combinator row). Emitting bare `ok_or_else(recv, …)` would fabricate an unknown prim and file-poison myc-check (G-β Rank A / G2/VR-5; residual when the method body itself gapped — e.g. M-1037 `.to_vec()` inside `read_to_end` — so the declaration was never registered)",
+      "item_name": "lookup"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 215,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" The guarded recursive core of [`eval`]: identical accounting, but every recursive step charges\"] # [doc = \" `budget.try_enter()` (RAII-released on return) so the depth ceiling — not a host-stack overflow —\"] # [doc = \" always bounds a pathological input (RFC-0041 §4.7).\"] fn go (node : & RcNode , env : & HashMap < VarId , AllocId > , m : & mut Machine , budget : & RecursionBudget ,) -> Result < AllocId , RcError > { let _guard = budget . try_enter () ? ; match node { RcNode :: Const (_) => Ok (m . alloc ()) , RcNode :: Var (x) => { let a = lookup (env , x) ? ; m . dec (a , x) ? ; Ok (a) } RcNode :: Borrow (x) => { let a = lookup (env , x) ? ; m . assert_live (a , x) ? ; Ok (a) } RcNode :: MoveUnique (x) => { let a = lookup (env , x) ? ; let rc = m . rc . get (& a) . copied () . unwrap_or (0) ; if rc != 1 { return Err (RcError :: UnsoundUnique { var : x . clone () , found : rc , }) ; } m . dec (a , x) ? ; Ok (a) } RcNode :: Dup { var , body } => { let a = lookup (env , var) ? ; m . dup (a) ; go (body , env , m , budget) } RcNode :: Drop { var , body } => { let a = lookup (env , var) ? ; m . dec (a , var) ? ; go (body , env , m , budget) } RcNode :: DropAfter { var , body } => { let r = go (body , env , m , budget) ? ; let a = lookup (env , var) ? ; m . dec (a , var) ? ; Ok (r) } RcNode :: Let { id , bound , body } => { let a = go (bound , env , m , budget) ? ; let mut e2 = env . clone () ; e2 . insert (id . clone () , a) ; go (body , & e2 , m , budget) } RcNode :: Op { args , .. } => { for arg in args { go (arg , env , m , budget) ? ; } Ok (m . alloc ()) } RcNode :: Swap { src , .. } => { go (src , env , m , budget) ? ; Ok (m . alloc ()) } RcNode :: Construct { .. } => Err (RcError :: UnsupportedNode (\"Construct\")) , RcNode :: Match { .. } => Err (RcError :: UnsupportedNode (\"Match\")) , RcNode :: Lam { .. } => Err (RcError :: UnsupportedNode (\"Lam\")) , RcNode :: App { .. } => Err (RcError :: UnsupportedNode (\"App\")) , } }",
+      "reason": "unsupported expression form `budget . try_enter () ?`",
+      "item_name": "go"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 293,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" The verdict of a differential run on one term (DN-33 §8.1 Q3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Differential { # [doc = \" Whether the owned and elided emissions reclaim the **same multiset** of values.\"] pub same_reclamations : bool , # [doc = \" `Dup` count of the owned emission.\"] pub owned_dups : usize , # [doc = \" `Dup` count of the elided emission.\"] pub elided_dups : usize , }",
+      "reason": "struct `Differential` named field(s) `same_reclamations, owned_dups, elided_dups` emitted positionally as `Differential(Bool, Binary{64}, Binary{64})` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "Differential"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 293,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The verdict of a differential run on one term (DN-33 §8.1 Q3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Differential { # [doc = \" Whether the owned and elided emissions reclaim the **same multiset** of values.\"] pub same_reclamations : bool , # [doc = \" `Dup` count of the owned emission.\"] pub owned_dups : usize , # [doc = \" `Dup` count of the elided emission.\"] pub elided_dups : usize , }",
+      "reason": "struct `Differential` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Differential"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 293,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The verdict of a differential run on one term (DN-33 §8.1 Q3).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub struct Differential { # [doc = \" Whether the owned and elided emissions reclaim the **same multiset** of values.\"] pub same_reclamations : bool , # [doc = \" `Dup` count of the owned emission.\"] pub owned_dups : usize , # [doc = \" `Dup` count of the elided emission.\"] pub elided_dups : usize , }",
+      "reason": "struct `Differential` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "Differential"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 304,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "impl Differential { # [doc = \" The elision is **semantics-preserving** iff the reclamation multisets match.\"] # [must_use] pub fn is_semantics_preserving (& self) -> bool { self . same_reclamations } # [doc = \" `Dup`s removed by elision (≥ 0; the optimisation's effect — `Exact`, read off the IR).\"] # [must_use] pub fn dups_removed (& self) -> usize { self . owned_dups . saturating_sub (self . elided_dups) } }",
+      "reason": "dropped non-doc attribute(s) on method `is_semantics_preserving`: # [must_use]",
+      "item_name": "impl Differential"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 304,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "impl Differential { # [doc = \" The elision is **semantics-preserving** iff the reclamation multisets match.\"] # [must_use] pub fn is_semantics_preserving (& self) -> bool { self . same_reclamations } # [doc = \" `Dup`s removed by elision (≥ 0; the optimisation's effect — `Exact`, read off the IR).\"] # [must_use] pub fn dups_removed (& self) -> usize { self . owned_dups . saturating_sub (self . elided_dups) } }",
+      "reason": "impl method `dups_removed` body: Rust `.saturating_sub` is saturating (silent clamp) — Mycelium has no saturating prim surface; desugaring to `saturating_sub(…)` would fabricate an unknown prim or lie about overflow (G2/VR-5). Gap never-silently (express gap-close 2026-07-16).",
+      "item_name": "impl Differential"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 318,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Count `Dup` nodes anywhere in an [`RcNode`].\"] # [doc = \"\"] # [doc = \" **RFC-0041 §4.7 (guard hole RR-29 sibling):** the entry point runs the traversal on the\"] # [doc = \" `mycelium-workstack` deep worker stack ([`ensure_sufficient_stack`]) so a deep `RcNode` — even one\"] # [doc = \" built directly by an external caller, outside the [`differential`] path — completes rather than\"] # [doc = \" SIGABRTing the host (the \\\"no input SIGABRTs any public pass\\\" §9-DoD close).\"] # [must_use] pub fn count_dups (node : & RcNode) -> usize { let budget = RecursionBudget :: default () ; ensure_sufficient_stack (& budget , | | count_dups_inner (node)) }",
+      "reason": "qualified/associated-function call `RecursionBudget :: default` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "count_dups"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 336,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" The recursive core of [`count_dups`], run on the deep worker stack the public entry point spawns\"] # [doc = \" — so nested calls recurse on the *same* grown stack rather than each re-spawning a worker.\"] fn count_dups_inner (node : & RcNode) -> usize { match node { RcNode :: Const (_) | RcNode :: Var (_) | RcNode :: Borrow (_) | RcNode :: MoveUnique (_) => 0 , RcNode :: Dup { body , .. } => 1 + count_dups_inner (body) , RcNode :: Drop { body , .. } | RcNode :: DropAfter { body , .. } => count_dups_inner (body) , RcNode :: Let { bound , body , .. } => count_dups_inner (bound) + count_dups_inner (body) , RcNode :: Op { args , .. } | RcNode :: Construct { args , .. } => { args . iter () . map (count_dups_inner) . sum () } RcNode :: Swap { src , .. } => count_dups_inner (src) , RcNode :: Match { scrutinee , alts , default , } => { count_dups_inner (scrutinee) + alts . iter () . map (| a | match a { crate :: rc_ir :: RcAlt :: Ctor { body , .. } | crate :: rc_ir :: RcAlt :: Lit { body , .. } => count_dups_inner (body) , }) . sum :: < usize > () + default . as_deref () . map_or (0 , count_dups_inner) } RcNode :: Lam { body , .. } => count_dups_inner (body) , RcNode :: App { func , arg } => count_dups_inner (func) + count_dups_inner (arg) , } }",
+      "reason": "struct-variant pattern `Dup { .. }` names a constructor with no confirmed in-file layout -- resolved only for an emitted, in-file struct (or, once DN-132's SS5.1 variant-aware `StructLayout` population lands, an in-file enum's named-field variant); never a guessed field-index arity (DN-132 SS5.1/OQ-4, VR-5/G2)",
+      "item_name": "count_dups_inner"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 368,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Count [`RcNode::MoveUnique`] annotations (Increment 2 `rc == 1` reuse sites) anywhere in an\"] # [doc = \" [`RcNode`] — the FBIP-reuse-eligible consume points. `Exact` (read off the IR).\"] # [doc = \"\"] # [doc = \" **RFC-0041 §4.7:** deep-stack-wrapped like [`count_dups`] (see its note) — a deep external input\"] # [doc = \" completes on the worker stack rather than SIGABRTing; the `O(N²)`/work-step bound stays a deferred\"] # [doc = \" W2 residual.\"] # [must_use] pub fn count_move_unique (node : & RcNode) -> usize { let budget = RecursionBudget :: default () ; ensure_sufficient_stack (& budget , | | count_move_unique_inner (node)) }",
+      "reason": "qualified/associated-function call `RecursionBudget :: default` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "count_move_unique"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 380,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" The recursive core of [`count_move_unique`] (see [`count_dups_inner`]).\"] fn count_move_unique_inner (node : & RcNode) -> usize { match node { RcNode :: Const (_) | RcNode :: Var (_) | RcNode :: Borrow (_) => 0 , RcNode :: MoveUnique (_) => 1 , RcNode :: Dup { body , .. } | RcNode :: Drop { body , .. } | RcNode :: DropAfter { body , .. } => { count_move_unique_inner (body) } RcNode :: Let { bound , body , .. } => { count_move_unique_inner (bound) + count_move_unique_inner (body) } RcNode :: Op { args , .. } | RcNode :: Construct { args , .. } => { args . iter () . map (count_move_unique_inner) . sum () } RcNode :: Swap { src , .. } => count_move_unique_inner (src) , RcNode :: Match { scrutinee , alts , default , } => { count_move_unique_inner (scrutinee) + alts . iter () . map (| a | match a { crate :: rc_ir :: RcAlt :: Ctor { body , .. } | crate :: rc_ir :: RcAlt :: Lit { body , .. } => count_move_unique_inner (body) , }) . sum :: < usize > () + default . as_deref () . map_or (0 , count_move_unique_inner) } RcNode :: Lam { body , .. } => count_move_unique_inner (body) , RcNode :: App { func , arg } => count_move_unique_inner (func) + count_move_unique_inner (arg) , } }",
+      "reason": "struct-variant pattern `Dup { .. }` names a constructor with no confirmed in-file layout -- resolved only for an emitted, in-file struct (or, once DN-132's SS5.1 variant-aware `StructLayout` population lands, an in-file enum's named-field variant); never a guessed field-index arity (DN-132 SS5.1/OQ-4, VR-5/G2)",
+      "item_name": "count_move_unique_inner"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/eval.rs",
+      "line": 415,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Run the differential check: evaluate the owned and elided emissions of the **same** Core IR term\"] # [doc = \" and compare. Returns the [`Differential`] verdict, or an [`RcError`] if either emission\"] # [doc = \" use-after-frees / double-frees (which would itself be a soundness failure of the elision).\"] # [doc = \"\"] # [doc = \" The two emissions are supplied as already-lowered [`RcNode`]s so this function stays independent\"] # [doc = \" of `crate::emit` (the caller pairs `emit_owned(t)` with `emit_elided(t)`).\"] pub fn differential (owned : & RcNode , elided : & RcNode) -> Result < Differential , RcError > { let owned_report = eval (owned) ? ; let elided_report = eval (elided) ? ; Ok (Differential { same_reclamations : owned_report . reclaimed_sorted () == elided_report . reclaimed_sorted () , owned_dups : count_dups (owned) , elided_dups : count_dups (elided) , }) }",
+      "reason": "unsupported expression form `eval (owned) ?`",
+      "item_name": "differential"
+    }
+  ],
+  "total_top_level_items": 23
+}

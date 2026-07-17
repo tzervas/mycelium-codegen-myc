@@ -1,0 +1,152 @@
+{
+  "source": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+  "emitted_items": [
+    "co-emit:Result",
+    "co-include:Mode",
+    "Tally",
+    "check_owned"
+  ],
+  "gaps": [
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 30,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use mycelium_core :: VarId ;",
+      "reason": "`use mycelium_core::VarId` — `mycelium_core` is not a sibling module OR sibling phylum transpiled in this same batch (an external crate, `std`, or simply out of this batch's target set). Flagged, not guessed (VR-5/G2)",
+      "item_name": null
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 32,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use crate :: rc_ir :: { Mode , RcAlt , RcNode } ;",
+      "reason": "`use rc_ir::RcAlt` — `RcAlt` is not among sibling `rc_ir`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:Mode"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 32,
+      "col": 1,
+      "category": "Import",
+      "rust_construct": "Import",
+      "snippet": "use crate :: rc_ir :: { Mode , RcAlt , RcNode } ;",
+      "reason": "`use rc_ir::RcNode` — `RcNode` is not among sibling `rc_ir`'s successfully-emitted surface in this batch (the sibling file itself gapped it rather than emitting it). Flagged, not guessed (VR-5/G2)",
+      "item_name": "co-include:Mode"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 34,
+      "col": 1,
+      "category": "PayloadVariant",
+      "rust_construct": "PayloadVariant",
+      "snippet": "# [doc = \" A balance-invariant violation for one binding (never-silent diagnostics, G2).\"] # [derive (Debug , Clone , PartialEq , Eq)] pub enum BalanceError { # [doc = \" An owned binding's references do not balance: `1 + dups != uses + drops`.\"] OwnedUnbalanced { # [doc = \" The binding variable.\"] var : VarId , # [doc = \" `Dup` count of `var` in scope.\"] dups : usize , # [doc = \" Consuming-use count of `var` in scope.\"] uses : usize , # [doc = \" `Drop` count of `var` in scope.\"] drops : usize , } , # [doc = \" A borrowed binding carries a `Dup`/`Drop` of its variable (it must carry neither).\"] BorrowedHasRcOps { # [doc = \" The binding variable.\"] var : VarId , # [doc = \" `Dup` count (must be 0 for a borrowed binding).\"] dups : usize , # [doc = \" `Drop` count (must be 0 for a borrowed binding).\"] drops : usize , } , }",
+      "reason": "enum `BalanceError` has a named-field variant referencing a type not resolvable in-file — emitting it positionally would introduce an unresolved reference that poisons the file's `myc check`; left gapped under the M-1006 resolvability gate (VR-5/G2)",
+      "item_name": "BalanceError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 59,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl std :: fmt :: Display for BalanceError { fn fmt (& self , f : & mut std :: fmt :: Formatter < '_ >) -> std :: fmt :: Result { match self { BalanceError :: OwnedUnbalanced { var , dups , uses , drops , } => write ! (f , \"owned binding `{var}` is RC-unbalanced: 1 + dups({dups}) != uses({uses}) + \\\n                 drops({drops})\") , BalanceError :: BorrowedHasRcOps { var , dups , drops } => write ! (f , \"borrowed binding `{var}` must carry no Dup/Drop, but has dups({dups}) + \\\n                 drops({drops})\") , } } }",
+      "reason": "trait-impl of non-prelude trait `Display` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "BalanceError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 81,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl std :: error :: Error for BalanceError { }",
+      "reason": "trait-impl of non-prelude trait `Error` — no ambient trait definition and synthetic trait emission is refused (DN-34 §8.8 / DN-122 MVP); gapped the whole impl so the residual cannot file-poison myc-check (G2; express gap-close 2026-07-16)",
+      "item_name": "BalanceError"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 83,
+      "col": 1,
+      "category": "NamedFieldDrop",
+      "rust_construct": "NamedFieldDrop",
+      "snippet": "# [doc = \" The (dups, drops, uses) tally of a variable within a scope.\"] # [derive (Debug , Clone , Copy , Default , PartialEq , Eq)] struct Tally { dups : usize , drops : usize , uses : usize , }",
+      "reason": "struct `Tally` named field(s) `dups, drops, uses` emitted positionally as `Tally(Binary{64}, Binary{64}, Binary{64})` — Mycelium's `constructor` is positional-only (no record surface); product structure preserved, field names dropped (matches `lib/std/*.myc` hand-ports)",
+      "item_name": "Tally"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 83,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The (dups, drops, uses) tally of a variable within a scope.\"] # [derive (Debug , Clone , Copy , Default , PartialEq , Eq)] struct Tally { dups : usize , drops : usize , uses : usize , }",
+      "reason": "struct `Tally` derive(Clone) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Tally"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 83,
+      "col": 1,
+      "category": "DeriveSatisfied",
+      "rust_construct": "DeriveSatisfied",
+      "snippet": "# [doc = \" The (dups, drops, uses) tally of a variable within a scope.\"] # [derive (Debug , Clone , Copy , Default , PartialEq , Eq)] struct Tally { dups : usize , drops : usize , uses : usize , }",
+      "reason": "struct `Tally` derive(Copy) is a satisfied no-op under Mycelium's value semantics (ADR-003 — every value already copies structurally; DN-128 §6.1) — not emitted as an impl, not a gap",
+      "item_name": "Tally"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 83,
+      "col": 1,
+      "category": "DeriveAttr",
+      "rust_construct": "DeriveAttr",
+      "snippet": "# [doc = \" The (dups, drops, uses) tally of a variable within a scope.\"] # [derive (Debug , Clone , Copy , Default , PartialEq , Eq)] struct Tally { dups : usize , drops : usize , uses : usize , }",
+      "reason": "struct `Tally` derive(...) names Eq not in the DN-128 standard-derive set this leaf builds (Debug/Default/Clone/Copy/PartialEq/PartialOrd/Hash all recognized; bare Eq/Ord are deliberately NOT recognized — see emit/derives/mod.rs::TABLE's doc for why) — dropped, no confirmed Mycelium surface",
+      "item_name": "Tally"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 91,
+      "col": 1,
+      "category": "Impl",
+      "rust_construct": "Impl",
+      "snippet": "impl Tally { fn add (self , other : Tally) -> Tally { Tally { dups : self . dups + other . dups , drops : self . drops + other . drops , uses : self . uses + other . uses , } } }",
+      "reason": "no member of this impl block could be transpiled (1 sub-issue(s)): impl method `add` body: field access on a non-`self` base — the transpiler tracks no local types, so the projection cannot be resolved to a constructor position (only `self.<field>` desugars to a `match`)",
+      "item_name": "Tally"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 101,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Verify the balance invariant over `node` and every binding nested within it.\"] # [doc = \"\"] # [doc = \" Returns the first violation found (never-silent — the bad binding is named), or `Ok(())` if\"] # [doc = \" every binding balances.\"] # [doc = \"\"] # [doc = \" Guarantee: `Exact` — a deterministic pass over the IR.\"] pub fn check_balance (node : & RcNode) -> Result < () , BalanceError > { match node { RcNode :: Const (_) | RcNode :: Var (_) | RcNode :: Borrow (_) | RcNode :: MoveUnique (_) => Ok (()) , RcNode :: Dup { body , .. } | RcNode :: Drop { body , .. } | RcNode :: DropAfter { body , .. } => { check_balance (body) } RcNode :: Let { id , bound , body } => { check_balance (bound) ? ; check_owned (id , body) ? ; check_balance (body) } RcNode :: Op { args , .. } | RcNode :: Construct { args , .. } => { for a in args { check_balance (a) ? ; } Ok (()) } RcNode :: Swap { src , .. } => check_balance (src) , RcNode :: Match { scrutinee , alts , default , } => { check_balance (scrutinee) ? ; for alt in alts { match alt { RcAlt :: Ctor { binders , body , .. } => { for b in binders { check_owned (b , body) ? ; } check_balance (body) ? ; } RcAlt :: Lit { body , .. } => check_balance (body) ? , } } if let Some (d) = default { check_balance (d) ? ; } Ok (()) } RcNode :: Lam { param , mode , body } => { let t = tally (param , body) ; match mode { Mode :: Owned => check_owned_tally (param , t) ? , Mode :: Borrowed => { if t . dups != 0 || t . drops != 0 { return Err (BalanceError :: BorrowedHasRcOps { var : param . clone () , dups : t . dups , drops : t . drops , }) ; } } } check_balance (body) } RcNode :: App { func , arg } => { check_balance (func) ? ; check_balance (arg) } } }",
+      "reason": "unit value `()` has no Mycelium literal",
+      "item_name": "check_balance"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 175,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "fn check_owned_tally (var : & VarId , t : Tally) -> Result < () , BalanceError > { if 1 + t . dups == t . uses + t . drops { Ok (()) } else { Err (BalanceError :: OwnedUnbalanced { var : var . clone () , dups : t . dups , uses : t . uses , drops : t . drops , }) } }",
+      "reason": "field access on a non-`self` base — the transpiler tracks no local types, so the projection cannot be resolved to a constructor position (only `self.<field>` desugars to a `match`)",
+      "item_name": "check_owned_tally"
+    },
+    {
+      "file": "/root/git/isolated/mycelium/crates/mycelium-mir-passes/src/balance.rs",
+      "line": 189,
+      "col": 1,
+      "category": "Other",
+      "rust_construct": "Other",
+      "snippet": "# [doc = \" Tally `var`'s `Dup`/`Drop`/use counts within `body`, respecting shadowing (an inner binder of\"] # [doc = \" the same name stops the tally for that sub-scope).\"] fn tally (var : & VarId , body : & RcNode) -> Tally { match body { RcNode :: Const (_) => Tally :: default () , RcNode :: Var (x) | RcNode :: MoveUnique (x) => Tally { uses : usize :: from (x == var) , .. Tally :: default () } , RcNode :: Borrow (_) => Tally :: default () , RcNode :: Dup { var : v , body } => { let base = tally (var , body) ; if v == var { Tally { dups : base . dups + 1 , .. base } } else { base } } RcNode :: Drop { var : v , body } | RcNode :: DropAfter { var : v , body } => { let base = tally (var , body) ; if v == var { Tally { drops : base . drops + 1 , .. base } } else { base } } RcNode :: Let { id , bound , body } => { let in_bound = tally (var , bound) ; if id == var { in_bound } else { in_bound . add (tally (var , body)) } } RcNode :: Op { args , .. } | RcNode :: Construct { args , .. } => args . iter () . fold (Tally :: default () , | acc , a | acc . add (tally (var , a))) , RcNode :: Swap { src , .. } => tally (var , src) , RcNode :: Match { scrutinee , alts , default , } => { let mut acc = tally (var , scrutinee) ; for alt in alts { acc = acc . add (match alt { RcAlt :: Ctor { binders , body , .. } => { if binders . iter () . any (| b | b == var) { Tally :: default () } else { tally (var , body) } } RcAlt :: Lit { body , .. } => tally (var , body) , }) ; } if let Some (d) = default { acc = acc . add (tally (var , d)) ; } acc } RcNode :: Lam { param , body , .. } => { if param == var { Tally :: default () } else { tally (var , body) } } RcNode :: App { func , arg } => tally (var , func) . add (tally (var , arg)) , } }",
+      "reason": "qualified/associated-function call `Tally :: default` did not resolve to a known-emitted associated fn — Mycelium calls are bare identifiers, and the only sound surface form for `Type::method(...)` is the mangled `Type__method` name the declaration side already emits for a receiver-less inherent-impl associated fn (DN-34 §8.13/8.14), referenced only when that exact declaration is PROVEN present (same-file, or a resolved M-1084 cross-nodule sibling). A primitive/std associated fn with no emitted decl (e.g. `i128::try_from`), an unresolved type, or a `self`-receiving method (excluded by construction — it stays reachable only from its own bare call site) all gap here rather than fabricate a call (G2/VR-5, DN-133)",
+      "item_name": "tally"
+    }
+  ],
+  "total_top_level_items": 11
+}

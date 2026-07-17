@@ -1,0 +1,100 @@
+// nodule: mir.passes.emit
+// Naive (fully-owned) RC-emission lowering `Node → RcNode` — MEM-4·B0 / DN-33 §6.
+//
+// This is the **foundation** the investigation (DN-33 §6.1) found missing: a lowering that *emits*
+// the reference-counting operations, so that MEM-4's elision (Increment 1) has something to elide.
+// It is **naive / fully-owned**: every binding owns its reference, so a binding used `k` times gets
+// `k-1` `Dup`s (one reference per use) and each use consumes one; a binding used `0` times gets one
+// `Drop`. No borrowing yet — that is Increment 1.
+//
+// # Scope — the first-order fragment (G2: never-silent on the rest)
+//
+// Total over `Const/Var/Let/Op/Swap/Construct/Match/Lam/App`. Recursion (`Fix`/`FixGroup`) is
+// **out of scope** for this increment (RC of recursive bindings is harder — DN-33 §6) and returns
+// an explicit [`EmitError::UnsupportedNode`] rather than being silently mis-emitted.
+//
+// # The emission rule (per owned binding)
+//
+// For a binding of `x` with `k` consuming uses in its scope body:
+// - `k == 0` → prepend one `Drop x` (the bound value is reclaimed immediately; never leaked).
+// - `k >= 1` → prepend `k-1` `Dup x` (so there are `k` references; the `k` uses consume them).
+//
+// The bound value starts with one reference (produced by evaluating `bound`), so the net is
+// `1 + (k-1) == k` references created and `k` consumed → balance zero (verified independently by
+// [`crate::balance`]).
+//
+// Guarantee: the emission is `Exact` **for the balance property** — by construction every owned
+// binding is reference-balanced (proven independently by the balance check, and mutation-tested).
+// No performance claim is made (B0 emits the *most* RC ops; Increment 1 removes the redundant
+// ones).
+// @summary: best-effort transpilation via mycelium-transpile (M-873). Declared,
+// unvalidated — no Mycelium parser/typechecker confirms this output; see the
+// accompanying .gap.json for every construct this pass could not express.
+nodule mir.passes.emit;
+
+// Declared: ambient Result type co-emit — oracle self-containment (G-α Rank-1 / L2-A). Type shape cites lib/std/result.myc (Ok/Err sum); combinators are NOT fabricated (VR-5/G2). Checker does not seed Result as prelude (unlike Bool/Unit unconditional, Vec conditional).
+type Result[A, E] = Ok(A) | Err(E);
+
+// EXPLAIN (L2-B/DN-124): Declared co-include of batch-sibling type surface (homes: mir.passes.rc_ir) so single-file oracle is self-contained — not a language `use` identity, not a short-form path collapse (M-1084 full path retained as provenance). Transitive type deps in the same batch are co-included. G2/VR-5.
+type Mode = Owned | Borrowed;
+
+// Why RC-emission could not lower a node.
+//
+// Exhaustive and never-silent (G2): a node outside the supported fragment is an explicit error,
+// not a silent pass-through or a wrong emission.
+pub type EmitError = UnsupportedNode(Bytes) | DepthExceeded(Binary{32});
+
+impl Show[EmitError] for EmitError {
+  fn render(x: EmitError) => Bytes =
+    match x { UnsupportedNode(p0) => bytes_concat(bytes_concat("UnsupportedNode(", render(p0)), ")"), DepthExceeded(p0) => bytes_concat(bytes_concat("DepthExceeded(", render(width_cast(p0, 0b0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000))), ")") };
+};
+
+fn eq_EmitError(a: EmitError, b: EmitError) => Binary{1} =
+  match a { UnsupportedNode(p0) => match b { UnsupportedNode(q0) => bytes_eq(p0, q0), _ => 0b0 }, DepthExceeded(p0) => match b { DepthExceeded(q0) => eq(p0, q0), _ => 0b0 } };
+
+// Lower a Core IR [`Node`] with MEM-4 Increment 1 **borrow elision** applied.
+//
+// Identical to [`emit_owned`] except that every **fully-borrowable** `let` binding (every use is a
+// reader-primitive read — [`is_fully_borrowable`]) is emitted with its uses as
+// [`RcNode::Borrow`](crate::rc_ir::RcNode::Borrow), **no** `Dup`, and a single
+// [`RcNode::DropAfter`](crate::rc_ir::RcNode::DropAfter) reclaiming it after its reads.
+//
+// Returns [`EmitError::UnsupportedNode`] for `Fix`/`FixGroup` (G2 — never-silent on recursion), and
+// [`EmitError::DepthExceeded`] if the traversal's own recursion exceeds the shared
+// [`RecursionBudget`] depth ceiling (RFC-0041 §4.7 — the W7 guard hole in this AOT RC/ownership
+// pass): the outermost call runs on the deep worker stack so a genuinely deep `Node` never
+// SIGABRTs `myc build`, and each recursive step charges [`RecursionBudget::try_enter`] so a
+// pathological input refuses cleanly at the depth ceiling.
+//
+// Guarantee: the elision is **semantics-preserving** — `Empirical` (the differential harness in
+// [`crate::eval`] checks that, for a corpus of terms, the multiset of reclaimed values is identical
+// to the owned emission's, with no use-after-free), backed by the structural `DropAfter`-after-reads
+// argument. The `dup`-count reduction is `Exact` (read off the IR); the *performance* benefit of
+// that reduction stays `Declared` until measured (DN-33 §8.1 Q5).
+pub fn emit_elided(node: Node) => Result[RcNode, EmitError] = emit_ann_toplevel(node, False);
+
+// Lower a Core IR [`Node`] with MEM-4 Increment 1 (**borrow elision**) **and** Increment 2
+// (**`rc == 1` reuse annotation**) applied.
+//
+// A superset of [`emit_elided`]: in addition to borrow-eliding fully-borrowable bindings, a `let`
+// binding that is a **sole-owned single move** ([`is_sole_owned_move`] — used exactly once, in a
+// move position) has that move emitted as [`RcNode::MoveUnique`](crate::rc_ir::RcNode::MoveUnique),
+// recording that the runtime `UniqueOwner` branch is statically guaranteed (FBIP-reuse-eligible).
+//
+// Returns [`EmitError::UnsupportedNode`] for `Fix`/`FixGroup` (G2), and [`EmitError::DepthExceeded`]
+// on a deeper-than-ceiling `Node` (RFC-0041 §4.7 — see [`emit_elided`]).
+//
+// Guarantee: the reuse annotation is **semantics-preserving** and its soundness is
+// **machine-verified** — [`crate::eval`] errors ([`crate::eval::RcError::UnsoundUnique`]) if any
+// `MoveUnique` is reached at a reference count other than 1. Tag `Empirical` (differential + the
+// verifying evaluator), not `Proven`.
+pub fn emit_reuse(node: Node) => Result[RcNode, EmitError] = emit_ann_toplevel(node, True);
+
+// The deep-stack-agnostic core of [`is_sole_owned_move`] — the bare structural test, run either on
+// the worker stack the public wrapper spawns or (from [`emit_ann`]) on the emission's existing deep
+// stack. Uses the bare [`count_occurrences_inner`]/[`borrow_occurrences_inner`] recursions (no
+// per-call thread spawn).
+fn is_sole_owned_move_inner(var: VarId, body: Node) => Bool = match (count_occurrences_inner(var, body) == 1) { True => (borrow_occurrences_inner(var, body) == 0), False => False };
+
+// The deep-stack-agnostic core of [`is_fully_borrowable`] (see [`is_sole_owned_move_inner`]).
+fn is_fully_borrowable_inner(var: VarId, body: Node) => Bool = let total = count_occurrences_inner(var, body) in match (gte(total, 1)) { True => (borrow_occurrences_inner(var, body) == total), False => False };
